@@ -1105,24 +1105,37 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     window.openEditRoundModal = (roundId) => {
-        console.log("Intentando editar ronda ID:", roundId);
-        // Usamos == para permitir comparación entre string y number si el ID es numérico en la DB
-        const round = appData.rounds.find(r => r.id == roundId);
-        
-        if (!round) {
-            console.error("Ronda no encontrada para ID:", roundId, "Rondas disponibles:", appData.rounds);
-            return;
+        try {
+            console.log("Intentando editar ronda ID:", roundId);
+            // Usamos == para permitir comparación entre string y number
+            const round = appData.rounds.find(r => r.id == roundId);
+            
+            if (!round) {
+                const errorText = `Ronda no encontrada para ID: ${roundId}. Rondas disponibles: ${appData.rounds.length}`;
+                console.error(errorText);
+                alert(errorText);
+                return;
+            }
+
+            const modal = document.getElementById('editRoundModal');
+            if (!modal) {
+                alert("Error: El modal 'editRoundModal' no se encontró en el DOM.");
+                return;
+            }
+
+            document.getElementById('editRoundId').value = round.id;
+            document.getElementById('editRoundNameInput').value = round.name || "";
+            document.getElementById('editRoundFormatInput').value = round.format || "";
+            document.getElementById('editRoundDateInput').value = round.date || "";
+            document.getElementById('editRoundTimeInput').value = round.time || "";
+            document.getElementById('editRoundCourseInput').value = round.course || "";
+            document.getElementById('editRoundStatusInput').value = round.status || "scheduled";
+
+            modal.classList.remove('hidden');
+        } catch (err) {
+            console.error("Error en openEditRoundModal:", err);
+            alert("Error al abrir el modal de edición: " + err.message);
         }
-
-        document.getElementById('editRoundId').value = round.id;
-        document.getElementById('editRoundNameInput').value = round.name || "";
-        document.getElementById('editRoundFormatInput').value = round.format || "";
-        document.getElementById('editRoundDateInput').value = round.date || "";
-        document.getElementById('editRoundTimeInput').value = round.time || "";
-        document.getElementById('editRoundCourseInput').value = round.course || "";
-        document.getElementById('editRoundStatusInput').value = round.status || "scheduled";
-
-        document.getElementById('editRoundModal').classList.remove('hidden');
     };
 
     // ========================================================
