@@ -244,7 +244,21 @@ body {
 .player-name-list { flex-grow: 1; font-size: 0.9rem;}
 
 /* Rounds Page */
-.round { background-color: #fff; padding: 15px 20px; border-radius: 8px; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border: 1px solid #e9ecef;}
+.round { 
+  background-color: #fff; 
+  padding: 18px 24px; 
+  border-radius: 10px; 
+  margin-bottom: 22px; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+  border: 1px solid #edf2f7;
+  border-left: 5px solid #D4AF37; /* Acento dorado para visibilidad */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.round:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
 .round-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding-bottom: 10px; }
 .round-header-main { display: flex; align-items: center; justify-content: space-between; flex-grow: 1; gap: 15px; min-width: 0; }
 .round-title-status-group { display: flex; flex-direction: column; align-items: flex-start; flex-grow: 1; min-width: 0; }
@@ -678,4 +692,17 @@ img.player-logo-stat { width:18px; height:18px; margin-right: 6px; border-radius
 
 .admin-form-group { margin-bottom: 12px; text-align: left; }
 .admin-form-group label { display: block; margin-bottom: 4px; font-size: 0.85rem; font-weight: bold; }
-.admin-form-group input, .admin-form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+.admin-form-group input, .admin-form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+
+/* Fondo blanco para logos de equipos */
+.team-logo {
+    background-color: #ffffff;
+    border-radius: 50%;
+    padding: 3px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border: 1.5px solid #fff;
+    object-fit: contain;
+    width: 32px;
+    height: 32px;
+}
+

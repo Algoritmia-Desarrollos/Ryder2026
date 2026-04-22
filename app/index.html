@@ -109,7 +109,62 @@
         </div>
     </div>
     
+    <!-- Edit Round Modal -->
+    <div id="editRoundModal" class="login-modal hidden">
+        <div class="login-modal-content" style="max-width: 480px;">
+            <span id="closeEditRoundModal" class="close-modal">&times;</span>
+            <h2><i class="fas fa-edit" style="color: #D4AF37;"></i> Editar Jornada</h2>
+            <p style="color:#777; font-size:0.9rem; margin-bottom:18px;">Modifica los detalles de la jornada seleccionada.</p>
+
+            <input type="hidden" id="editRoundId">
+
+            <div class="admin-form-group">
+                <label for="editRoundNameInput"><i class="fas fa-tag" style="color:#D4AF37;"></i> Nombre de la Ronda</label>
+                <input type="text" id="editRoundNameInput" placeholder="Ej: Viernes Mañana" autocomplete="off">
+            </div>
+
+            <div class="admin-form-group">
+                <label for="editRoundFormatInput"><i class="fas fa-golf-ball" style="color:#D4AF37;"></i> Formato de Juego</label>
+                <select id="editRoundFormatInput">
+                    <option value="">-- Elige un formato --</option>
+                    <option value="Foursomes">Foursomes (Tiros alternos)</option>
+                    <option value="Fourball">Fourball (Mejor bola)</option>
+                    <option value="Individuales">Individuales (Match Play)</option>
+                    <option value="Scramble">Scramble</option>
+                </select>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="editRoundDateInput"><i class="fas fa-calendar-alt" style="color:#D4AF37;"></i> Fecha</label>
+                <input type="date" id="editRoundDateInput">
+            </div>
+
+            <div class="admin-form-group">
+                <label for="editRoundTimeInput"><i class="fas fa-clock" style="color:#D4AF37;"></i> Horario de inicio</label>
+                <input type="time" id="editRoundTimeInput" placeholder="Ej: 09:00">
+            </div>
+
+            <div class="admin-form-group">
+                <label for="editRoundCourseInput"><i class="fas fa-map-marker-alt" style="color:#D4AF37;"></i> Cancha / Campo</label>
+                <input type="text" id="editRoundCourseInput" placeholder="Ej: Las Colinas Golf" autocomplete="off">
+            </div>
+
+            <div class="admin-form-group">
+                <label for="editRoundStatusInput"><i class="fas fa-info-circle" style="color:#D4AF37;"></i> Estado</label>
+                <select id="editRoundStatusInput">
+                    <option value="scheduled">Programada</option>
+                    <option value="in-progress">En Progreso</option>
+                    <option value="completed">Completada</option>
+                </select>
+            </div>
+
+            <button id="submitEditRoundBtn" class="action-button edit" style="margin-top: 18px; width:100%;"><i class="fas fa-save"></i> Guardar Cambios</button>
+            <p id="editRoundErrorMsg" style="color: #E76F51; display: none; margin-top: 10px;">Por favor, completa al menos el nombre, formato y fecha.</p>
+        </div>
+    </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
  <script src="./script5.js"></script>
 
 </body>

@@ -440,7 +440,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                                     ${round.time ? `<span class="header-detail time-detail"><i class="fas fa-clock"></i> ${round.time}</span>` : ''}
                                 </div>
                             </div>
-                            ${isAdmin ? `<button class="action-button delete compact" style="margin-left:8px; padding:6px 10px; flex-shrink:0;" onclick="event.stopPropagation(); window.deleteRound('${round.id}', '${round.name.replace(/'/g,"\\'")}',${ matchesArray.length })" title="Eliminar Ronda"><i class="fas fa-trash"></i></button>` : ''}
+                            ${isAdmin ? `
+                                <button class="action-button edit compact" style="margin-left:8px; padding:6px 10px; flex-shrink:0;" onclick="event.stopPropagation(); window.openEditRoundModal('${round.id}')" title="Editar Ronda"><i class="fas fa-edit"></i></button>
+                                <button class="action-button delete compact" style="margin-left:8px; padding:6px 10px; flex-shrink:0;" onclick="event.stopPropagation(); window.deleteRound('${round.id}', '${round.name.replace(/'/g,"\\'")}',${ matchesArray.length })" title="Eliminar Ronda"><i class="fas fa-trash"></i></button>
+                            ` : ''}
                             <span class="toggle-arrow"><i class="fas fa-chevron-down"></i></span>
                         </div>
                         <div class="round-details hidden"> 
@@ -1101,6 +1104,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     };
 
+    window.openEditRoundModal = (roundId) => {
+        console.log("Intentando editar ronda ID:", roundId);
+        // Usamos == para permitir comparación entre string y number si el ID es numérico en la DB
+        const round = appData.rounds.find(r => r.id == roundId);
+        
+        if (!round) {
+            console.error("Ronda no encontrada para ID:", roundId, "Rondas disponibles:", appData.rounds);
+            return;
+        }
+
+        document.getElementById('editRoundId').value = round.id;
+        document.getElementById('editRoundNameInput').value = round.name || "";
+        document.getElementById('editRoundFormatInput').value = round.format || "";
+        document.getElementById('editRoundDateInput').value = round.date || "";
+        document.getElementById('editRoundTimeInput').value = round.time || "";
+        document.getElementById('editRoundCourseInput').value = round.course || "";
+        document.getElementById('editRoundStatusInput').value = round.status || "scheduled";
+
+        document.getElementById('editRoundModal').classList.remove('hidden');
+    };
+
     // ========================================================
     // 4. LÓGICA DE EJECUCIÓN PRINCIPAL
     // ========================================================
@@ -1174,6 +1198,45 @@ document.addEventListener('DOMContentLoaded', async () => {
         const createRoundModal = document.getElementById('createRoundModal');
         document.getElementById('closeCreateRoundModal')?.addEventListener('click', () => {
             createRoundModal.classList.add('hidden');
+        });
+
+        // Modal Editar Ronda Logic
+        const editRoundModal = document.getElementById('editRoundModal');
+        document.getElementById('closeEditRoundModal')?.addEventListener('click', () => {
+            editRoundModal.classList.add('hidden');
+        });
+
+        document.getElementById('submitEditRoundBtn')?.addEventListener('click', async () => {
+            const id = document.getElementById('editRoundId').value;
+            const name = document.getElementById('editRoundNameInput').value.trim();
+            const format = document.getElementById('editRoundFormatInput').value;
+            const date = document.getElementById('editRoundDateInput').value;
+            const time = document.getElementById('editRoundTimeInput').value || null;
+            const course = document.getElementById('editRoundCourseInput').value.trim() || null;
+            const status = document.getElementById('editRoundStatusInput').value || 'scheduled';
+            const errorMsg = document.getElementById('editRoundErrorMsg');
+
+            if (!name || !format || !date) {
+                errorMsg.style.display = 'block';
+                return;
+            }
+            errorMsg.style.display = 'none';
+            const btn = document.getElementById('submitEditRoundBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+            btn.disabled = true;
+
+            try {
+                const { error } = await supabaseClient.from('rounds').update({
+                    name, format, date, time, course, status
+                }).eq('id', id);
+                
+                if (error) throw error;
+                window.location.reload();
+            } catch (e) {
+                alert('Error al actualizar la ronda: ' + e.message);
+                btn.innerHTML = '<i class="fas fa-save"></i> Guardar Cambios';
+                btn.disabled = false;
+            }
         });
 
         document.getElementById('submitCreateRoundBtn')?.addEventListener('click', async () => {
