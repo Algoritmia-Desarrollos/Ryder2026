@@ -661,3 +661,21 @@ img.player-logo-stat { width:18px; height:18px; margin-right: 6px; border-radius
 
 
 /* ... (resto de tu CSS) ... */
+
+/* Estilos de Admin y Modal Login */
+.admin-hidden { display: none !important; }
+
+.login-modal { position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px); }
+.login-modal.hidden { display: none !important; }
+.login-modal-content { background: #fff; padding: 25px; border-radius: 8px; width: 90%; max-width: 400px; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); max-height: 90vh; overflow-y: auto; }
+.close-modal { position: absolute; right: 15px; top: 10px; font-size: 24px; cursor: pointer; color: #555; }
+.login-modal-content h2 { margin-top: 0; color: #0b0e14; }
+.login-modal-content p { color: #555; font-size: 0.9rem; margin-bottom: 20px; }
+.login-modal-content input { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
+.login-modal-content button { width: 100%; padding: 10px; background: #D4AF37; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+.login-modal-content button:hover { background: #f3ca4d; }
+.admin-nav-item a { color: #D4AF37 !important; font-weight: bold; }
+
+.admin-form-group { margin-bottom: 12px; text-align: left; }
+.admin-form-group label { display: block; margin-bottom: 4px; font-size: 0.85rem; font-weight: bold; }
+.admin-form-group input, .admin-form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; }

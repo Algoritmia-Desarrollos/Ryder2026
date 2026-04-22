@@ -31,27 +31,57 @@
 
   <!-- Hero: Próximo Evento -->
   <section id="hero" class="hero bg-versus">
+
+    <!-- Partículas de fondo -->
+    <canvas id="heroParticles"></canvas>
+
+    <!-- Destellos de luz (orbs) -->
+    <div class="hero-orb orb-green"></div>
+    <div class="hero-orb orb-red"></div>
+    <div class="hero-orb orb-gold"></div>
+
+    <!-- Línea central animada -->
+    <div class="hero-center-line"></div>
+
     <div class="hero-content">
 
-      <p class="subtitle">
-        Próximo evento:
-      </p>
-      <h1 class="hero-title">Ryder Cup 2025</h1>
-      <p class="subtitle">
-        <span class="team-label tortuga">
-          Tortugas
-        </span>
-        <span class="vs">vs</span>
-        <span class="team-label salmon">
-          Salmones
-        </span>
-      </p>
-            <div class="hero-buttons">
-        <a  class="btn location">Las Colinas, Alicante</a>
-        <a  class="btn date-btn">Mayo 24/05, 2025</a>
+      <!-- Título principal -->
+      <h1 class="hero-title anim-zoom-in" style="--delay:0.3s">Ryder Cup<br><span class="hero-year">2026</span></h1>
+
+      <!-- Equipos -->
+      <div class="hero-teams anim-fade-up" style="--delay:0.9s">
+        <div class="hero-team hero-team--tortugas">
+          <img src="tortuga.webp" alt="Tortugas" class="hero-team-logo">
+          <span class="hero-team-name">Tortugas</span>
+        </div>
+
+        <div class="hero-vs-wrap">
+          <span class="hero-vs">VS</span>
+          <div class="hero-vs-rings"></div>
+        </div>
+
+        <div class="hero-team hero-team--salmones">
+          <img src="salmon.webp" alt="Salmones" class="hero-team-logo">
+          <span class="hero-team-name">Salmones</span>
+        </div>
+      </div>
+
+      <!-- Botones -->
+      <div class="hero-buttons anim-fade-up" style="--delay:1.1s">
+        <a class="btn location-btn">&#128197; Mayo, 2026</a>
+        <a class="btn date-btn">&#128205; Las Colinas, Alicante</a>
       </div>
 
     </div>
+
+    <!-- Scroll indicator -->
+    <div class="hero-scroll-cue anim-fade-up" style="--delay:1.5s;">
+      <div class="hero-scroll-mouse">
+        <div class="hero-scroll-wheel"></div>
+      </div>
+      <span>Scroll</span>
+    </div>
+
   </section>
 
   <main>
@@ -62,7 +92,7 @@
         <div class="grid-4">
           <div class="card salmon">
             <h3>Victorias</h3>
-            <p>Salmones <strong>11</strong></p>
+            <p>Salmones <strong>12</strong></p>
           </div>
           <div class="card tortuga">
             <h3>Victorias</h3>
@@ -70,7 +100,7 @@
           </div>
           <div class="card neutral">
             <h3>Copa Ryder</h3>
-            <p>Salmones <strong>11</strong> – Tortugas <strong>5</strong></p>
+            <p>Salmones <strong>12</strong> – Tortugas <strong>5</strong></p>
           </div>
         </div>
       </div>
@@ -172,7 +202,8 @@
               <tr data-resultado="Salmones"><td data-label="Año">2022</td><td data-label="Sede">Sevilla</td><td data-label="Resultado" class="resultado-salmones">Salmones</td></tr>
               <tr data-resultado="Salmones"><td data-label="Año">2023</td><td data-label="Sede">Valencia (El Saler Escorpión)</td><td data-label="Resultado" class="resultado-salmones">Salmones</td></tr>
               <tr data-resultado="Tortugas"><td data-label="Año">2024</td><td data-label="Sede">Alicante (La Sella)</td><td data-label="Resultado" class="resultado-tortugas">Tortugas</td></tr>
-              <tr data-resultado="Pendiente"><td data-label="Año">2025</td><td data-label="Sede">Las Colinas (Alicante)</td><td data-label="Resultado" class="resultado-pendiente"><em>Pendiente</em></td></tr>
+              <tr data-resultado="Salmones"><td data-label="Año">2025</td><td data-label="Sede">Las Colinas (Alicante)</td><td data-label="Resultado" class="resultado-salmones">Salmones</td></tr>
+              <tr data-resultado="Pendiente"><td data-label="Año">2026</td><td data-label="Sede">Las Colinas (Alicante)</td><td data-label="Resultado" class="resultado-pendiente"><em>Pendiente</em></td></tr>
             </tbody>
           </table>
         </div>
@@ -186,6 +217,7 @@
 
 
   <script>
+
     // Navigation transparency on scroll
     const nav = document.querySelector('.site-nav');
     const heroSection = document.querySelector('#hero');
@@ -206,6 +238,7 @@
       if (heroSection) heroHeight = heroSection.offsetHeight;
       updateNavTransparency();
     });
+
     document.addEventListener('DOMContentLoaded', updateNavTransparency);
 
     // Basic Table Filter
@@ -238,9 +271,69 @@
       });
     }, { threshold: 0.1 });
     reveals.forEach(el => revealObserver.observe(el));
+
+    // ========== HERO PARTICLES ==========
+    (function() {
+      const canvas = document.getElementById('heroParticles');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [];
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const COLORS = [
+        'rgba(212,175,55,ALPHA)',
+      ];
+
+      function createParticle() {
+        const color = COLORS[0];
+        return {
+          x: Math.random() * W,
+          y: Math.random() * H,
+          r: Math.random() * 1.8 + 0.4,
+          alpha: Math.random() * 0.4 + 0.07,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: -(Math.random() * 0.5 + 0.1),
+          color,
+          twinkle: Math.random() * Math.PI * 2
+        };
+      }
+
+      for (let i = 0; i < 85; i++) particles.push(createParticle());
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        particles.forEach((p, i) => {
+          p.twinkle += 0.03;
+          const a = p.alpha * (0.6 + 0.4 * Math.sin(p.twinkle));
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.color.replace('ALPHA', a.toFixed(2));
+          ctx.fill();
+
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.y < -10 || p.x < -10 || p.x > W + 10) {
+            particles[i] = createParticle();
+            particles[i].y = H + 10;
+          }
+        });
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    // ========== (sin parallax de mouse) ==========
   </script>
 </body>
 </html>
+
 
 
 

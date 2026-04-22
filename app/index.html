@@ -23,7 +23,7 @@
     <div class="container">
         <aside class="sidebar" id="sidebar">
             <div class="logo">
-                <img src="./logocomp.webp" alt="Logo Ryder Cup"> <div class="logo-text">Ryder Cup Panel</div>
+                <img src="./logo2026.png" alt="Logo Ryder Cup 2026" style="height:48px; width:auto; object-fit:contain;"> <div class="logo-text">Ryder Cup Panel</div>
             </div>
             <nav>
                 <ul>
@@ -33,6 +33,8 @@
                     <li data-target="leaderboard"><a href="#"><i class="fas fa-trophy"></i> Clasificación</a></li>
                     <li data-target="rules"><a href="#"><i class="fas fa-gavel"></i> Reglas</a></li>
                     <li data-target="info"><a href="#"><i class="fas fa-info-circle"></i> Información</a></li>
+                    <li id="loginNavLi" class="admin-nav-item"><a href="#" id="openLoginModal"><i class="fas fa-lock"></i> Entrar Admin</a></li>
+                    <li id="logoutNavLi" class="admin-nav-item" style="display:none;"><a href="#" id="doLogoutBtn"><i class="fas fa-unlock"></i> Salir Admin</a></li>
                 </ul>
             </nav>
         </aside>
@@ -43,10 +45,71 @@
 
     <a href="../index.html" class="floating-btn">Página Web</a>
 
-  
+    <!-- Admin Login Modal -->
+    <div id="loginModal" class="login-modal hidden">
+        <div class="login-modal-content">
+            <span id="closeLoginModal" class="close-modal">&times;</span>
+            <h2>Acceso Administrador</h2>
+            <p>Ingresa la contraseña para habilitar la edición.</p>
+            <input type="password" id="adminPasswordInput" placeholder="Contraseña">
+            <button id="loginSubmitBtn" class="action-button add">Verificar</button>
+            <p id="loginErrorMsg" style="color: #E76F51; display: none; margin-top: 10px;">Contraseña incorrecta.</p>
+        </div>
+    </div>
 
+    <!-- Create Round Modal -->
+    <div id="createRoundModal" class="login-modal hidden">
+        <div class="login-modal-content" style="max-width: 480px;">
+            <span id="closeCreateRoundModal" class="close-modal">&times;</span>
+            <h2><i class="fas fa-flag-checkered" style="color: #D4AF37;"></i> Nueva Ronda</h2>
+            <p style="color:#777; font-size:0.9rem; margin-bottom:18px;">Completa todos los campos para crear la jornada.</p>
 
-   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+            <div class="admin-form-group">
+                <label for="roundNameInput"><i class="fas fa-tag" style="color:#D4AF37;"></i> Nombre de la Ronda</label>
+                <input type="text" id="roundNameInput" placeholder="Ej: Viernes Mañana" autocomplete="off">
+            </div>
+
+            <div class="admin-form-group">
+                <label for="roundFormatInput"><i class="fas fa-golf-ball" style="color:#D4AF37;"></i> Formato de Juego</label>
+                <select id="roundFormatInput">
+                    <option value="">-- Elige un formato --</option>
+                    <option value="Foursomes">Foursomes (Tiros alternos)</option>
+                    <option value="Fourball">Fourball (Mejor bola)</option>
+                    <option value="Individuales">Individuales (Match Play)</option>
+                    <option value="Scramble">Scramble</option>
+                </select>
+            </div>
+
+            <div class="admin-form-group">
+                <label for="roundDateInput"><i class="fas fa-calendar-alt" style="color:#D4AF37;"></i> Fecha</label>
+                <input type="date" id="roundDateInput">
+            </div>
+
+            <div class="admin-form-group">
+                <label for="roundTimeInput"><i class="fas fa-clock" style="color:#D4AF37;"></i> Horario de inicio</label>
+                <input type="time" id="roundTimeInput" placeholder="Ej: 09:00">
+            </div>
+
+            <div class="admin-form-group">
+                <label for="roundCourseInput"><i class="fas fa-map-marker-alt" style="color:#D4AF37;"></i> Cancha / Campo</label>
+                <input type="text" id="roundCourseInput" placeholder="Ej: Las Colinas Golf" autocomplete="off">
+            </div>
+
+            <div class="admin-form-group">
+                <label for="roundStatusInput"><i class="fas fa-info-circle" style="color:#D4AF37;"></i> Estado inicial</label>
+                <select id="roundStatusInput">
+                    <option value="scheduled">Programada</option>
+                    <option value="in-progress">En Progreso</option>
+                    <option value="completed">Completada</option>
+                </select>
+            </div>
+
+            <button id="submitCreateRoundBtn" class="action-button add" style="margin-top: 18px; width:100%;"><i class="fas fa-plus-circle"></i> Crear Ronda</button>
+            <p id="roundErrorMsg" style="color: #E76F51; display: none; margin-top: 10px;">Por favor, completa al menos el nombre, formato y fecha.</p>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
  <script src="./script5.js"></script>
 
 </body>

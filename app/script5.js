@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ========================================================
     // 1. CONFIGURACIÓN INICIAL Y CLIENTE SUPABASE
     // ========================================================
-    const SUPABASE_URL = 'https://iqmeuclohdanlxaqsudh.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlxbWV1Y2xvaGRhbmx4YXFzdWRoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDczMzg3OTIsImV4cCI6MjA2MjkxNDc5Mn0.d3kR4SIZCDxupijDcRJYRO4chS2ivd-sNtv5uZIfKwI';
+    const SUPABASE_URL = 'https://amykozyxbgyqadllgdon.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_3tpA0w6H04r7zi_N8zub7w_CeYcr34a';
 
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log("Supabase client inicializado.");
@@ -38,6 +38,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     };
 
     let appData = JSON.parse(JSON.stringify(defaultAppDataStructure));
+    let isAdmin = localStorage.getItem('ryderAdmin') === 'true';
+    let adminPassword = 'Admin123';
 
     // ========================================================
     // 3. DEFINICIÓN DE TODAS LAS FUNCIONES
@@ -76,6 +78,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     additionalDetails: config.additional_details || defaultAppDataStructure.additionalDetails,
                     rules: config.rules || defaultAppDataStructure.rules
                 });
+                if (config.admin_password) {
+                    adminPassword = config.admin_password;
+                }
             }
 
             console.log("Paso 2: Cargando equipos...");
@@ -256,8 +261,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         for (const teamKey in appData.teams) {
             const team = appData.teams[teamKey] || defaultAppDataStructure.teams[teamKey];
             const playersArray = Array.isArray(team.players) ? team.players : [];
-            let playersHtml = playersArray.map(player => `<li><div class="player-info-wrapper"><span class="player-initial" style="background-color: ${darkenColor(team.color, 20)};">${player.initials}</span><span class="player-name-list">${player.name} </span></div></li>`).join('');
-            html += `<div class="team-column"><h3>${team.logo ? `<img src="${team.logo}" alt="${team.name} Logo" style="height: 30px; margin-right: 10px; border-radius: 4px;">` : ''}Equipo ${team.name}<span class="score-badge" style="background-color: ${team.color};">${(team.score || 0).toFixed(1)}</span></h3><p>MIEMBROS DEL EQUIPO (${playersArray.length})</p><ul class="team-members-list">${playersHtml}</ul></div>`;
+            let playersHtml = playersArray.map(player => `<li><div class="player-info-wrapper"><span class="player-initial" style="background-color: ${darkenColor(team.color, 20)};">${player.initials}</span><span class="player-name-list">${player.name} </span></div>${isAdmin ? `<button class="action-button delete compact" style="margin-left:auto; padding: 4px 8px; font-size: 0.75rem;" onclick="window.deletePlayerById('${player.id}', '${player.name}')"><i class="fas fa-times"></i></button>` : ''}</li>`).join('');
+            
+            const addAdminPlayerBtn = isAdmin ? `
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px dotted #ccc;">
+                    <input type="text" id="newPlayerName_${team.id}" placeholder="Nombre" style="width:100%; padding: 5px; margin-bottom:5px; border-radius: 4px; border: 1px solid #ccc;">
+                    <input type="text" id="newPlayerInitials_${team.id}" placeholder="Iniciales" style="width:100%; padding: 5px; margin-bottom:5px; border-radius: 4px; border: 1px solid #ccc;">
+                    <button class="action-button add" style="width:100%;" onclick="window.addPlayerToTeam('${team.id}')"><i class="fas fa-user-plus"></i> Añadir Jugador</button>
+                </div>
+            ` : '';
+            
+            html += `<div class="team-column"><h3>${team.logo ? `<img src="${team.logo}" alt="${team.name} Logo" style="height: 30px; margin-right: 10px; border-radius: 4px;">` : ''}Equipo ${team.name}<span class="score-badge" style="background-color: ${team.color};">${(team.score || 0).toFixed(1)}</span></h3><p>MIEMBROS DEL EQUIPO (${playersArray.length})</p><ul class="team-members-list">${playersHtml}</ul>${addAdminPlayerBtn}</div>`;
         }
         html += '</div></div>'; return html;
     }
@@ -334,6 +348,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         const tortugasLabel = tPlayersArray[0] !== 'N/A' ? ` (${tortugasTeam.name})` : '';
         const salmonesLabel = sPlayersArray[0] !== 'N/A' ? ` (${salmonesTeam.name})` : '';
 
+        const adminControls = isAdmin ? `
+                    <div class="match-item-controls">
+                        <label for="winner_${match.id}" class="sr-only">Ganador:</label>
+                        <select class="match-winner-select" id="winner_${match.id}" data-round-id="${roundId}" data-match-id="${match.id}">
+                            <option value="">-- Ganador --</option>
+                            <option value="tortugas" ${match.winner === 'tortugas' ? 'selected' : ''}>${tortugasTeam.name}</option>
+                            <option value="salmones" ${match.winner === 'salmones' ? 'selected' : ''}>${salmonesTeam.name}</option>
+                            <option value="empate" ${match.winner === 'empate' ? 'selected' : ''}>Empate</option>
+                        </select>
+                        <button class="save-match-btn action-button edit compact" data-round-id="${roundId}" data-match-id="${match.id}" title="Guardar Partido"><i class="fas fa-save"></i></button>
+                        <button class="remove-match-btn action-button delete compact" data-round-id="${roundId}" data-match-id="${match.id}" title="Eliminar Partido"><i class="fas fa-trash-alt"></i></button>
+                    </div>` : `<div class="match-item-controls view-only-controls"><span style="font-weight:bold; font-size: 1.1rem; margin-right: 15px;">${match.winner ? (match.winner === 'tortugas' ? tortugasTeam.name : match.winner === 'salmones' ? salmonesTeam.name : 'Empate') : 'Pendiente'}</span></div>`;
+
+
         return `<div class="match-editor match-item ${winnerClass}" data-match-render-id="${match.id}">
                     <div class="match-item-players">
                         <span class="player-names tortugas-players" style="--player-text-color: ${tortugasTeam.color};">
@@ -346,19 +374,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             <span class="team-tag">${salmonesLabel}</span>
                         </span>
                     </div>
-                    <div class="match-item-controls">
-                        <label for="winner_${match.id}" class="sr-only">Ganador:</label>
-                        <select class="match-winner-select" id="winner_${match.id}" data-round-id="${roundId}" data-match-id="${match.id}">
-                            <option value="">-- Ganador --</option>
-                            <option value="tortugas" ${match.winner === 'tortugas' ? 'selected' : ''}>${tortugasTeam.name}</option>
-                            <option value="salmones" ${match.winner === 'salmones' ? 'selected' : ''}>${salmonesTeam.name}</option>
-                            <option value="empate" ${match.winner === 'empate' ? 'selected' : ''}>Empate</option>
-                        </select>
-                        <label for="result_${match.id}" class="sr-only">Resultado:</label>
-                        <input type="text" class="match-result-input" id="result_${match.id}" value="${match.result || ''}" placeholder="Resultado (Ej: 3&2)" data-round-id="${roundId}" data-match-id="${match.id}">
-                        <button class="save-match-btn action-button edit compact" data-round-id="${roundId}" data-match-id="${match.id}" title="Guardar Partido"><i class="fas fa-save"></i></button>
-                        <button class="remove-match-btn action-button delete compact" data-round-id="${roundId}" data-match-id="${match.id}" title="Eliminar Partido"><i class="fas fa-trash-alt"></i></button>
-                    </div>
+                    ${adminControls}
                 </div>`;
     }
 
@@ -396,7 +412,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                  formContentHtml = '<p class="notice-text">No se pueden crear partidos hasta que ambos equipos tengan jugadores asignados.</p>';
             }
 
-            const addMatchSectionHtml = `
+            const addMatchSectionHtml = isAdmin ? `
                 <div class="add-match-section" data-round-id-form="${round.id}">
                     <div class="add-match-header">
                         <h5><i class="fas fa-plus-circle"></i> Crear Nuevo Partido</h5>
@@ -405,7 +421,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="add-match-form-container hidden">
                         ${formContentHtml}
                     </div>
-                </div>`;
+                </div>` : '';
             
             const formattedDate = new Date((round.date || '1970-01-01') + 'T00:00:00Z').toLocaleDateString('es-ES', {
                 day: '2-digit', month: 'short',
@@ -424,6 +440,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                                     ${round.time ? `<span class="header-detail time-detail"><i class="fas fa-clock"></i> ${round.time}</span>` : ''}
                                 </div>
                             </div>
+                            ${isAdmin ? `<button class="action-button delete compact" style="margin-left:8px; padding:6px 10px; flex-shrink:0;" onclick="event.stopPropagation(); window.deleteRound('${round.id}', '${round.name.replace(/'/g,"\\'")}',${ matchesArray.length })" title="Eliminar Ronda"><i class="fas fa-trash"></i></button>` : ''}
                             <span class="toggle-arrow"><i class="fas fa-chevron-down"></i></span>
                         </div>
                         <div class="round-details hidden"> 
@@ -445,7 +462,34 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </div>
                     </div>`;
         }).join('');
-        return `<div class="content-section"><h2><i class="fas fa-flag-checkered"></i> Rondas del Torneo</h2>${roundsHtml}</div>`;
+
+        const adminAddRoundBtn = isAdmin ? `
+            <div style="margin-top:28px; text-align:center; padding: 20px 0; border-top: 1px dashed #e0e0e0;">
+                <button onclick="window.promptCreateRound()" style="
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 10px;
+                    padding: 12px 28px;
+                    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+                    color: #D4AF37;
+                    border: 1px solid #D4AF37;
+                    border-radius: 8px;
+                    font-size: 0.95rem;
+                    font-weight: 700;
+                    letter-spacing: 0.05em;
+                    cursor: pointer;
+                    transition: all 0.25s ease;
+                    box-shadow: 0 2px 12px rgba(212,175,55,0.15);
+                    font-family: inherit;
+                " onmouseover="this.style.background='linear-gradient(135deg,#D4AF37,#f3ca4d)'; this.style.color='#1a1200'; this.style.boxShadow='0 6px 24px rgba(212,175,55,0.4)';"
+                   onmouseout="this.style.background='linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)'; this.style.color='#D4AF37'; this.style.boxShadow='0 2px 12px rgba(212,175,55,0.15)';">
+                    <i class="fas fa-plus-circle"></i>
+                    Nueva Jornada / Ronda
+                </button>
+            </div>
+        ` : '';
+
+        return `<div class="content-section"><h2><i class="fas fa-flag-checkered"></i> Rondas del Torneo</h2>${roundsHtml}${adminAddRoundBtn}</div>`;
     }
     
     function renderLeaderboardPage(filter = 'overall') {
@@ -1001,6 +1045,63 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // ========================================================
+    // Lógica CRUD Admin Global
+    // ========================================================
+    window.promptCreateRound = () => {
+        const modal = document.getElementById('createRoundModal');
+        if (modal) {
+            document.getElementById('roundDateInput').value = new Date().toISOString().split('T')[0];
+            document.getElementById('roundNameInput').value = '';
+            document.getElementById('roundFormatInput').value = '';
+            document.getElementById('roundTimeInput').value = '';
+            document.getElementById('roundCourseInput').value = appData.location || '';
+            document.getElementById('roundStatusInput').value = 'scheduled';
+            document.getElementById('roundErrorMsg').style.display = 'none';
+            modal.classList.remove('hidden');
+        }
+    };
+
+    window.addPlayerToTeam = async (teamId) => {
+         const name = document.getElementById('newPlayerName_'+teamId).value;
+         const initials = document.getElementById('newPlayerInitials_'+teamId).value;
+         if(!name || !initials) { alert("Completa nombre e iniciales."); return; }
+         try {
+             const { data, error } = await supabaseClient.from('players').insert([{name, initials, team_id: teamId}]).select().single();
+             if(error) throw error;
+             window.location.reload();
+         } catch(e) {
+              alert("Error añadiendo jugador: " + e.message);
+         }
+    };
+
+    window.deletePlayerById = async (playerId, playerName) => {
+        if(!confirm(`¿Seguro que deseas eliminar a ${playerName}?`)) return;
+        try {
+            const { error } = await supabaseClient.from('players').delete().eq('id', playerId);
+            if(error) throw error;
+            window.location.reload();
+        } catch(e) {
+            alert("Error eliminando jugador: " + e.message);
+        }
+    };
+
+    window.deleteRound = async (roundId, roundName, matchCount) => {
+        if (matchCount > 0) {
+            alert(`⚠️ No puedes eliminar "${roundName}" porque tiene ${matchCount} partido${matchCount > 1 ? 's' : ''} creado${matchCount > 1 ? 's' : ''}.\n\nElimina primero todos los partidos de esta ronda y luego podrás borrarla.`);
+            return;
+        }
+        if (!confirm(`¿Estás seguro de que quieres eliminar la ronda "${roundName}"?\n\nEsta acción no se puede deshacer.`)) return;
+        if (!confirm(`⚠️ CONFIRMACIÓN FINAL\n\n¿Eliminar permanentemente la ronda "${roundName}"?`)) return;
+        try {
+            const { error } = await supabaseClient.from('rounds').delete().eq('id', roundId);
+            if (error) throw error;
+            window.location.reload();
+        } catch(e) {
+            alert('Error eliminando ronda: ' + e.message);
+        }
+    };
+
+    // ========================================================
     // 4. LÓGICA DE EJECUCIÓN PRINCIPAL
     // ========================================================
     try {
@@ -1047,6 +1148,77 @@ document.addEventListener('DOMContentLoaded', async () => {
         const initialTarget = sidebarLinks[0]?.dataset.target || 'home';
         if (sidebarLinks[0]) sidebarLinks[0].classList.add('active');
         renderContent(initialTarget);
+
+        // Admin Login Modal Logic
+        const loginModal = document.getElementById('loginModal');
+        const loginNavLi = document.getElementById('loginNavLi');
+        const logoutNavLi = document.getElementById('logoutNavLi');
+        
+        if (isAdmin) {
+            loginNavLi.style.display = 'none';
+            logoutNavLi.style.display = 'block';
+        } else {
+            loginNavLi.style.display = 'block';
+            logoutNavLi.style.display = 'none';
+        }
+
+        document.getElementById('openLoginModal')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.classList.remove('hidden');
+        });
+        document.getElementById('closeLoginModal')?.addEventListener('click', () => {
+            loginModal.classList.add('hidden');
+        });
+        
+        // Modal Crear Ronda Logic
+        const createRoundModal = document.getElementById('createRoundModal');
+        document.getElementById('closeCreateRoundModal')?.addEventListener('click', () => {
+            createRoundModal.classList.add('hidden');
+        });
+
+        document.getElementById('submitCreateRoundBtn')?.addEventListener('click', async () => {
+            const name = document.getElementById('roundNameInput').value.trim();
+            const format = document.getElementById('roundFormatInput').value;
+            const date = document.getElementById('roundDateInput').value;
+            const time = document.getElementById('roundTimeInput').value || null;
+            const course = document.getElementById('roundCourseInput').value.trim() || appData.location || 'Campo de Golf';
+            const status = document.getElementById('roundStatusInput').value || 'scheduled';
+            const errorMsg = document.getElementById('roundErrorMsg');
+
+            if (!name || !format || !date) {
+                errorMsg.style.display = 'block';
+                return;
+            }
+            errorMsg.style.display = 'none';
+            const btn = document.getElementById('submitCreateRoundBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creando...';
+            btn.disabled = true;
+
+            try {
+                const { error } = await supabaseClient.from('rounds').insert([{name, format, date, time, course, status}]);
+                if (error) throw error;
+                window.location.reload();
+            } catch (e) {
+                alert('Error creando ronda: ' + e.message);
+                btn.innerHTML = '<i class="fas fa-plus-circle"></i> Crear Ronda';
+                btn.disabled = false;
+            }
+        });
+
+        document.getElementById('loginSubmitBtn')?.addEventListener('click', () => {
+            const pwd = document.getElementById('adminPasswordInput').value;
+            if (pwd === adminPassword) {
+                localStorage.setItem('ryderAdmin', 'true');
+                window.location.reload();
+            } else {
+                document.getElementById('loginErrorMsg').style.display = 'block';
+            }
+        });
+        document.getElementById('doLogoutBtn')?.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('ryderAdmin');
+            window.location.reload();
+        });
 
     } catch (error) {
         console.error("Error durante la inicialización o carga de datos principal:", error);
