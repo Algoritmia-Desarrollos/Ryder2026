@@ -1,0 +1,647 @@
+/* ================= Reset & Tipografías ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  color: #e0e0e0;
+  background: #000a02;
+  line-height: 1.6;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  color: #fff;
+  line-height: 1.3;
+}
+a {
+  color: #fdd835;
+  text-decoration: none;
+}
+a:hover {
+  color: #ffee58;
+}
+
+/* ================= Navegación ================= */
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+}
+.site-nav.transparent {
+  background: transparent !important;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+.site-nav:not(.transparent) {
+  background: rgba(20,20,20,0.8);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.35);
+}
+.site-nav ul {
+  display: flex;
+  justify-content: center;
+  gap: 4rem;             /* increased gap for breathing room */
+  padding: 1.5rem ;       /* a bit more vertical padding */
+  list-style: none;
+  margin: 0;
+}
+.site-nav a {
+  position: relative;
+  color: #fff;           /* white text by default */
+  font-weight: 500;
+  font-size: 1rem;       /* slightly larger for readability */
+  padding: 0.6rem 0;     /* more tappable area */
+  transition: color 0.2s;
+}
+.site-nav a::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  width: 0;
+  height: 3px;           /* slightly thicker underline */
+  background: #fdd835;
+  transition: width 0.3s ease, left 0.3s ease;
+  transform: translateX(-50%);
+}
+.site-nav a:hover {
+  color: #fdd835;        /* yellow on hover */
+}
+.site-nav a:hover::after {
+  width: 80%;            /* underlines most of the word, not edge-to-edge */
+  left: 50%;
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 768px) {
+  .site-nav ul {
+    gap: 2rem;           /* reduce gap on smaller screens */
+  }
+  .site-nav a {
+    font-size: 0.9rem;
+    padding: 0.5rem 0;
+  }
+}
+@media (max-width: 480px) {
+  .site-nav ul {
+    flex-direction: row;
+    padding: 18px 20px;  
+    justify-content: space-between;
+  }
+  .site-nav a {
+    font-size: 0.85rem;
+    padding: 0.8rem 0;   /* extra tap area on phone */
+  }
+}
+
+
+/* ================= HERO ================= */
+.hero.bg-versus {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  padding: 60px 0.5rem 2rem;
+  background-image:
+    linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%),
+    url('1.webp');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+.hero.bg-versus::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 70px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 20%, rgba(0,0,0,1) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+@media (max-width: 768px) {
+  .hero.bg-versus {
+    background-image:
+      linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.45) 100%),
+      url('2.webp');
+    background-attachment: scroll;
+  }
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1000px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* "Próximo evento" */
+.hero-content > .subtitle:first-of-type {
+  font-size: clamp(1rem, 2.5vw, 1.2rem);
+  color: #fdd835;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+/* Título principal */
+.hero-title {
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+  text-shadow: 0 0 20px rgba(0,0,0,0.8);
+}
+/* Subtítulo de equipos */
+.hero-content .subtitle:not(:first-of-type) {
+  font-size: clamp(1.2rem, 4vw, 2.2rem);
+
+  text-shadow: 0 0 10px rgba(0,0,0,0.7);
+}
+.subtitle .vs {
+  color: #fdd835;
+  font-weight: 700;
+  margin: 0 0.3em;
+}
+
+/* Botones */
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.hero-buttons .btn {
+  padding: 0.8rem 1.8rem;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hero-buttons .btn.location {
+  background: #fdd835;
+  color: #1c1c1c;
+}
+.hero-buttons .btn.date-btn {
+  background: rgba(255,255,255,0.9);
+  color: #333;
+}
+.hero-buttons .btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
+
+/* ================= PANEL & CONTENEDORES ================= */
+.panel {
+  padding: 3.5rem 0;
+}
+.panel:last-child {
+  padding-bottom: 5rem;
+}
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 0.8rem;
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.9s ease-out, transform 0.9s ease-out;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.panel h2 {
+  text-align: center;
+  font-size: clamp(1.8rem,5vw,2.5rem);
+  margin-bottom: 2.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #fdd835;
+  position: relative;
+  padding-bottom: 0.4rem;
+}
+.panel h2::after {
+  content: '';
+  position: absolute;
+  left: 50%; bottom: 0;
+  width: 70px; height: 2px;
+  background: #fff;
+  transform: translateX(-50%);
+}
+
+/* ================= Resumen (summary) ================= */
+#summary .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 0.8rem;
+}
+
+.grid-4 {
+  display: grid;
+  /* force exactly 3 columns on desktop */
+  grid-template-columns: repeat(3, minmax(250px, 1fr));
+  gap: 2rem; /* more breathing room */
+  justify-items: center; /* center cards if extra space */
+}
+
+.card {
+  background: linear-gradient(145deg, #2a2a2a 0%, #181818 100%);
+  padding: 2rem 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow:
+    0 8px 24px rgba(0,0,0,0.4),
+    inset 0 0 0 1px rgba(255,255,255,0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  width: 100%;
+  max-width: 350px;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow:
+    0 12px 36px rgba(0,0,0,0.5),
+    inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+.card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.card p {
+  font-size: 1.4rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0;
+}
+
+/* Colores por equipo */
+.card.salmon h3,
+.card.salmon p {
+  color: #ff6b5f;
+}
+
+.card.tortuga h3,
+.card.tortuga p {
+  color: #55bcbc;
+}
+
+.card.neutral h3 {
+  color: #a2b0bb;
+}
+
+.card.defend h3,
+.card.defend p strong {
+  color: #fdd835;
+}
+
+/* Responsive: collapse to one column on narrow screens */
+@media (max-width: 768px) {
+  .grid-4 {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* ================= Hándicaps ================= */
+.hero-columns {
+  display: flex;
+  justify-content: center;
+  gap: clamp(1.5rem,4vw,3rem);
+  flex-wrap: wrap;
+}
+.column {
+  flex: 1;
+  min-width: 180px;
+  background: rgba(20,20,20,0.4);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 1.2rem 0.8rem;
+}
+.team-icon {
+  display: block;
+  margin: 0 auto 0.8rem;
+  width: clamp(50px,10vw,70px);
+  filter: drop-shadow(2px 2px 6px rgba(0,0,0,0.6));
+}
+.column ul { list-style: none; }
+.column ul li {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding-bottom: 0.3rem;
+  margin: 0.4rem 0;
+}
+.column ul li:first-child { margin-top: 0; }
+.column ul li span:first-child { color: #f0f0f0; font-weight: 500; }
+.column ul li span:last-child { color: #fdd835; font-weight: 600; }
+.column ul li sup { color: #fdd835; font-weight: 700; margin-left: 0.2em; }
+.hcp-note {
+  text-align: center;
+  color: #fdd835;
+  margin-top: 1.5rem;
+}
+
+/* ================= Cronología ================= */
+.filter {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.filter select {
+  padding: 0.5rem 0.8rem;
+  border-radius: 5px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: #2a2a2a;
+  color: #f0f0f0;
+  font-size: 0.9rem;
+}
+.table-wrapper {
+  overflow-x: auto;
+  background: rgba(30,30,30,0.5);
+  padding: 0.3rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  min-width: 600px;
+}
+th, td {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  text-align: left;
+  font-size: 0.9rem;
+}
+thead tr { background: rgba(0,0,0,0.15); }
+th {
+  color: #fdd835;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+th:first-child { border-top-left-radius: 6px; }
+th:last-child  { border-top-right-radius: 6px; }
+tbody tr:hover { background: rgba(255,255,255,0.06); }
+tbody tr:last-child td:first-child  { border-bottom-left-radius: 6px; }
+tbody tr:last-child td:last-child   { border-bottom-right-radius: 6px; }
+
+/* Resultado por color */
+.resultado-salmones  { color: #ff6b5f; font-weight:600; text-align:center; }
+.resultado-tortugas  { color: #55bcbc; font-weight:600; text-align:center; }
+.resultado-empate    { color: #a2b0bb; font-weight:600; text-align:center; }
+.resultado-suspendida,
+.resultado-no-ryder,
+.resultado-pendiente { color: #89a1b0; font-style:italic; text-align:center; }
+
+/* ================= Responsive ================= */
+@media (max-width: 992px) {
+  .column           { flex: 0 0 calc(50% - 1rem); }
+  .grid-4           { grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); }
+  table             { min-width: 100%; }
+  th, td            { padding: 0.6rem 0.8rem; font-size:0.85rem; }
+}
+@media (max-width: 768px) {
+  .site-nav ul      { gap: 0.5rem; }
+  .hero-title       { font-size: clamp(2rem,10vw,5rem); }
+  .hero-content > .subtitle:first-of-type { font-size:0.8rem; }
+  .hero-columns     { flex-direction: column; gap:1.2rem; max-width:380px; }
+  .column           { width:100%; }
+  .hero-buttons     { flex-direction: column; gap:0.7rem; max-width:380px; }
+  .hero-buttons .btn{ width:100%; }
+  /* Móvil: tabla apilada */
+  thead             { display: none; }
+  table, tbody, tr, td { display: block; width: 100%; }
+  tr                { margin-bottom:0.8rem; padding:0.4rem; background:rgba(30,30,30,0.7); }
+  td {
+    position: relative;
+    padding-left: 45%;
+    text-align: right;
+  }
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 0.5rem;
+    width: 40%;
+    font-weight: 600;
+    color: #fdd835;
+    text-align: left;
+  }
+}
+@media (max-width: 576px) {
+  .panel { padding: 2.5rem 0; }
+  .grid-4 { gap: 1rem; }
+  .card h3 { font-size: 0.9rem; }
+  .card p { font-size: 1.5rem; }
+  .column ul li { font-size: 0.85rem; }
+  .hero-buttons .btn { font-size: 0.75rem; padding:0.7rem 1rem;}
+}
+
+
+/* Responsive: una columna en móvil/tablet */
+@media (max-width: 768px) {
+  .grid-4 {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .grid-4 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+@media (max-width: 360px) {
+  .grid-4 {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+
+
+
+
+
+/* ====== Hándicaps: encabezado de equipo (centrado en desktop) ====== */
+.team-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* antes era left */
+  gap: 0.5rem;
+  margin: 1.5rem auto 1rem;   /* centrado y espacio arriba/abajo */
+  width: fit-content;         /* ajusta el ancho al contenido */
+}
+.team-header .team-icon {
+  width: 40px;
+  height: auto;
+  filter: none;
+  padding-top: 10px;
+}
+.team-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 0;
+}
+.team-name.tortuga { color: #55bcbc; }
+.team-name.salmon  { color: #ff6b5f; }
+
+/* ====== Responsive (sigue igual) ====== */
+@media (max-width: 768px) {
+  .team-header {
+    flex-direction: column;
+    gap: 0.25rem;
+    margin: 1rem auto 0.5rem;
+  }
+  .team-name {
+    font-size: 1.1rem;
+  }
+  .team-header .team-icon {
+    width: 45px;
+  }
+  .card p {
+    font-size: 1.1rem;
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0;
+  }
+}
+
+
+
+/* ====== Logos junto al nombre en el subtítulo ====== */
+.subtitle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  
+}
+
+.team-label {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: #e0e0e0;
+
+}
+
+.subtitle-icon {
+  width: 2.5rem;
+  height: auto;
+  margin: 0 .4rem;
+  vertical-align: middle;
+}
+
+/* Aumentar ligeramente el vs */
+.subtitle .vs {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: #fff200;
+  font-weight: 700;
+}
+
+/* Responsive: un poco más grande en móvil */
+@media (max-width: 480px) {
+  .subtitle {
+    margin-bottom: 5px;
+  }
+  .subtitle-icon {
+    width: 2rem;
+    margin: 0 .3rem;
+  }
+  .subtitle .vs {
+    font-size: 1rem;
+  }
+}
+
+
+
+
+  .hero-content {
+    /* Empuja el contenido hacia abajo un 50% de la altura del viewport */
+    margin-top: 40vh;
+    /* Asegura que el texto quede siempre centrado horizontalmente */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+/* ================= HERO: desplazar contenido en móvil ================= */
+@media (max-width: 768px) {
+  .hero-content {
+    /* Empuja el contenido hacia abajo un 50% de la altura del viewport */
+    margin-top: 30vh;
+    /* Asegura que el texto quede siempre centrado horizontalmente */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+
+/* ================= Subtítulo de equipos en blanco y más espaciado ================= */
+.hero-content .subtitle:not(:first-of-type) .team-label {
+  color: #ffffff !important;      /* fuerza blanco puro */
+  margin: 0 1.2rem;               /* aumenta el espacio horizontal */
+}
+
+/* Si usas el icono junto al label, también aseguramos que el icono no cambie */
+.hero-content .subtitle:not(:first-of-type) .subtitle-icon {
+  filter: brightness(0) invert(1); /* hace que el icono se vea bien sobre fondo oscuro */
+}
+
+/* Ajuste extra de kerning para que se lean mejor */
+.hero-content .subtitle:not(:first-of-type) .team-label {
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+
+
+/* Botón flotante siempre visible */
+.floating-btn {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  background-color: #fdd835;
+  color: #1c1c1c;
+  padding: 0.8rem 1rem;
+  border-radius: 50px;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 2000;
+}
+
+.floating-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}

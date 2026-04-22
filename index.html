@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XX Ryder Cup: Tortugas vs Salmones</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Poppins:wght@300;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css" />
+  <!-- favicon normal -->
+<link rel="icon" href="./app/logocomp.webp" type="image/png" />
+  <!-- favicon retina -->
+  <link rel="apple-touch-icon" sizes="180x180" href="./app/logocomp.webp">
+  <link rel="icon" type="image/png" sizes="32x32" href="./app/logocomp.webp">
+  <link rel="icon" type="image/png" sizes="16x16" href="./app/logocomp.webp">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+</head>
+<body>
+
+  <!-- Navegación -->
+  <nav class="site-nav transparent">
+    <ul>
+      <li><a href="#hero">Inicio</a></li>
+      <li><a href="#summary">Resumen</a></li>
+      <li><a href="#hcp">Hándicaps</a></li>
+      <li><a href="#timeline">Cronología</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero: Próximo Evento -->
+  <section id="hero" class="hero bg-versus">
+    <div class="hero-content">
+
+      <p class="subtitle">
+        Próximo evento:
+      </p>
+      <h1 class="hero-title">Ryder Cup 2025</h1>
+      <p class="subtitle">
+        <span class="team-label tortuga">
+          Tortugas
+        </span>
+        <span class="vs">vs</span>
+        <span class="team-label salmon">
+          Salmones
+        </span>
+      </p>
+            <div class="hero-buttons">
+        <a  class="btn location">Las Colinas, Alicante</a>
+        <a  class="btn date-btn">Mayo 24/05, 2025</a>
+      </div>
+
+    </div>
+  </section>
+
+  <main>
+    <!-- Resumen -->
+    <section id="summary" class="panel reveal">
+      <div class="container">
+        <h2>Resumen</h2>
+        <div class="grid-4">
+          <div class="card salmon">
+            <h3>Victorias</h3>
+            <p>Salmones <strong>11</strong></p>
+          </div>
+          <div class="card tortuga">
+            <h3>Victorias</h3>
+            <p>Tortugas <strong>5</strong></p>
+          </div>
+          <div class="card neutral">
+            <h3>Copa Ryder</h3>
+            <p>Salmones <strong>11</strong> – Tortugas <strong>5</strong></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+   <!-- Hándicaps -->
+<section id="hcp" class="panel reveal">
+  <div class="container">
+    <h2>Hándicaps</h2>
+    <div class="hero-columns">
+      
+      <!-- Columna Tortugas -->
+      <div class="column">
+        <div class="team-header">
+      
+          <img src="tortuga.webp" alt="Tortugas" class="team-icon" />
+          <h3 class="team-name tortuga">Tortugas</h3>
+      
+        </div>
+        <ul>
+          <li><span>Kike</span><span>11,3</span></li>
+          <li><span>Pitin</span><span>18,5</span></li>
+          <li><span>Oscar</span><span>11,4</span></li>
+          <li><span>Ruben</span><span>23,3</span></li>
+          <li><span>Ruy C</span><span>16,5</span></li>
+          <li><span>Xavi</span><span>20,7</span></li>
+          <li><span>Miguel</span><span>26,5</span></li>
+          <li><span>Javier</span><span>28,6</span></li>
+        </ul>
+      </div>
+
+      <!-- Columna Salmones -->
+      <div class="column">
+        <div class="team-header">
+        
+          <img src="salmon.webp" alt="Salmones" class="team-icon" />
+          <h3 class="team-name salmon">Salmones</h3>
+         
+        </div>
+        <ul>
+          <li><span>Ricardo</span><span>7,2</span></li>
+          <li><span>Luis</span><span>14,1</span></li>
+          <li><span>Juan C</span><span>15,4</span></li>
+          <li><span>Jorge</span><span>16,2</span></li>
+          <li><span>Cai</span><span>24,7</span></li>
+          <li><span>Ale</span><span>24,4</span></li>
+          <li><span>Rafa</span><span>11,5</span></li>
+          <li><span>Fer</span><span>27,7</span></li>
+        </ul>
+      </div>
+
+    </div>
+    <p class="hcp-note">* Hándicaps actuales</p>
+  </div>
+</section>
+
+
+    <!-- Cronología -->
+    <section id="timeline" class="panel reveal">
+      <div class="container">
+        <h2>Cronología Completa</h2>
+        <div class="filter">
+          <label>Filtrar por:
+            <select id="filterSelect">
+              <option value="all">Todos</option>
+              <option value="Salmones">Salmones</option>
+              <option value="Tortugas">Tortugas</option>
+              <option value="Empate">Empate</option>
+              <option value="Suspendida">Suspendida</option>
+              <option value="No Ryder">No Ryder</option>
+            </select>
+          </label>
+        </div>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr><th>Año</th><th>Sede</th><th>Resultado</th></tr>
+            </thead>
+            <tbody>
+              <tr data-resultado="Salmones"><td data-label="Año">2003</td><td data-label="Sede">Alicante</td><td data-label="Resultado" class="resultado-salmones">Salmones</td></tr>
+              <tr data-resultado="Salmones"><td data-label="Año">2004</td><td data-label="Sede">Alicante</td><td data-label="Resultado" class="resultado-salmones">Salmones</td></tr>
+              <tr data-resultado="Empate"><td data-label="Año">2005</td><td data-label="Sede">Sevilla (R.C. Sevilla)</td><td data-label="Resultado" class="resultado-empate">Empate</td></tr>
+              <tr data-resultado="Empate"><td data-label="Año">2006</td><td data-label="Sede">Mallorca</td><td data-label="Resultado" class="resultado-empate">Empate</td></tr>
+              <tr data-resultado="Tortugas"><td data-label="Año">2007</td><td data-label="Sede">Málaga (Naranjos)</td><td data-label="Resultado" class="resultado-tortugas">Tortugas</td></tr>
+              <tr data-resultado="Salmones"><td data-label="Año">2008</td><td data-label="Sede">Sevilla (R.C. Sevilla)</td><td data-label="Resultado" class="resultado-salmones">Salmones</td></tr>
+              <tr data-resultado="Salmones"><td data-label="Año">2009</td><td data-label="Sede">Murcia (La Manga)</td><td data-label="Resultado" class="resultado-salmones">Salmones</td></tr>
+              <tr data-resultado="Tortugas"><td data-label="Año">2010</td><td data-label="Sede">Málaga (Naranjos)</td><td data-label="Resultado" class="resultado-tortugas">Tortugas</td></tr>
+              <tr data-resultado="Empate"><td data-label="Año">2011</td><td data-label="Sede">Cádiz (Sancti Petri)</td><td data-label="Resultado" class="resultado-empate">Empate</td></tr>
+              <tr data-resultado="Salmones"><td data-label="Año">2012</td><td data-label="Sede">Valencia (El Saler)</td><td data-label="Resultado" class="resultado-salmones">Salmones</td></tr>
+              <tr data-resultado="Salmones"><td data-label="Año">2013</td><td data-label="Sede">Euskadi</td><td data-label="Resultado" class="resultado-salmones">Salmones</td></tr>
+              <tr data-resultado="Tortugas"><td data-label="Año">2014</td><td data-label="Sede">Sevilla (R.C. Sevilla)</td><td data-label="Resultado" class="resultado-tortugas">Tortugas</td></tr>
+              <tr data-resultado="Empate"><td data-label="Año">2015</td><td data-label="Sede">Murcia (Alhama)</td><td data-label="Resultado" class="resultado-empate">Empate</td></tr>
+              <tr data-resultado="Salmones"><td data-label="Año">2016</td><td data-label="Sede">Alicante (Las Colinas)</td><td data-label="Resultado" class="resultado-salmones">Salmones</td></tr>
+              <tr data-resultado="Tortugas"><td data-label="Año">2017</td><td data-label="Sede">R. Dominicana</td><td data-label="Resultado" class="resultado-tortugas">Tortugas</td></tr>
+              <tr data-resultado="Salmones"><td data-label="Año">2018</td><td data-label="Sede">Valencia (El Saler Escorpión)</td><td data-label="Resultado" class="resultado-salmones">Salmones</td></tr>
+              <tr data-resultado="Salmones"><td data-label="Año">2019</td><td data-label="Sede">Sevilla (R.C. Sevilla)</td><td data-label="Resultado" class="resultado-salmones">Salmones</td></tr>
+              <tr data-resultado="Suspendida"><td data-label="Año">2020</td><td data-label="Sede"></td><td data-label="Resultado" class="resultado-suspendida">Suspendida</td></tr>
+              <tr data-resultado="No Ryder"><td data-label="Año">2021</td><td data-label="Sede">Alicante</td><td data-label="Resultado" class="resultado-no-ryder">No Ryder</td></tr>
+              <tr data-resultado="Salmones"><td data-label="Año">2022</td><td data-label="Sede">Sevilla</td><td data-label="Resultado" class="resultado-salmones">Salmones</td></tr>
+              <tr data-resultado="Salmones"><td data-label="Año">2023</td><td data-label="Sede">Valencia (El Saler Escorpión)</td><td data-label="Resultado" class="resultado-salmones">Salmones</td></tr>
+              <tr data-resultado="Tortugas"><td data-label="Año">2024</td><td data-label="Sede">Alicante (La Sella)</td><td data-label="Resultado" class="resultado-tortugas">Tortugas</td></tr>
+              <tr data-resultado="Pendiente"><td data-label="Año">2025</td><td data-label="Sede">Las Colinas (Alicante)</td><td data-label="Resultado" class="resultado-pendiente"><em>Pendiente</em></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+    <!-- Botón flotante -->
+    <a href="./app/index.html" class="floating-btn">Jugar</a>
+
+
+  <script>
+    // Navigation transparency on scroll
+    const nav = document.querySelector('.site-nav');
+    const heroSection = document.querySelector('#hero');
+    let heroHeight = heroSection ? heroSection.offsetHeight : 300;
+
+    function updateNavTransparency() {
+      if (heroSection) {
+        heroHeight = heroSection.offsetHeight;
+      }
+      if (window.scrollY > heroHeight * 0.1) {
+        nav.classList.remove('transparent');
+      } else {
+        nav.classList.add('transparent');
+      }
+    }
+    window.addEventListener('scroll', updateNavTransparency);
+    window.addEventListener('resize', () => {
+      if (heroSection) heroHeight = heroSection.offsetHeight;
+      updateNavTransparency();
+    });
+    document.addEventListener('DOMContentLoaded', updateNavTransparency);
+
+    // Basic Table Filter
+    const filterSelect = document.getElementById('filterSelect');
+    const tableRows = document.querySelectorAll('#timeline tbody tr');
+    if (filterSelect) {
+      filterSelect.addEventListener('change', function() {
+        const selectedValue = this.value;
+        tableRows.forEach(row => {
+          const resultadoCell = row.querySelector('td[data-label="Resultado"]');
+          if (resultadoCell) {
+            const cellText = resultadoCell.textContent.trim();
+            if (selectedValue === 'all' || cellText.includes(selectedValue) || (selectedValue === "No Ryder" && cellText === "No Ryder")) {
+              row.style.display = '';
+            } else {
+              row.style.display = 'none';
+            }
+          }
+        });
+      });
+    }
+
+    // Reveal on scroll (simple version)
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => revealObserver.observe(el));
+  </script>
+</body>
+</html>
+
+
+
+
